@@ -27,11 +27,133 @@
     <div class="container">
       <section id="main_content">
         <h3>
-            <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages">
+            <a name="what-is-replash" class="anchor" href="#what-is-replash">
                 <span class="octicon octicon-link"></span>
             </a>
-            Coming soon!
+            What is REPLash?
         </h3>
+        <p>
+            REPLash is a lightweight and extensible command-line REPL for Java.
+        </p>
+
+          <p>
+              If you want to do something like the
+              following you might want to consider using REPLash.
+          </p>
+
+<pre>
+> help
+date
+exit
+help
+quit
+> date
+18/09/14 10:04 PM
+> exit</pre>
+
+          <p>Here's the Java code:</p>
+
+        <pre><code>public class WebSamplesMain {
+    @Command(name = "date")
+    public void printDate() {
+        DateFormat dateFormat = new SimpleDateFormat();
+        String dateStr = dateFormat.format(new Date());
+        Console.println(dateStr);
+    }
+
+    public static void main(String[] args) {
+        Replash replash = new ReplashBuilder()
+            .withCommands(WebSamplesMain.class)
+            .build();
+            replash.run();
+    }
+}</code></pre>
+
+
+          <h3>
+              <a name="features" class="anchor" href="#features">
+                  <span class="octicon octicon-link"></span>
+              </a>
+              Features
+          </h3>
+          <ul>
+              <li>Lightweight: REPLash core has only one dependency</li>
+              <li>Extensible: REPLash lets you replace any of its core components or write your own extensions</li>
+              <li>Spring and Spring Boot Integration (Optional)</li>
+              <li>Command History</li>
+              <li>Tab Completion</li>
+          </ul>
+
+          <h3>
+              <a name="getting-started" class="anchor" href="#getting-started">
+                  <span class="octicon octicon-link"></span>
+              </a>
+              Getting Started
+          </h3>
+          <p>
+              REPLash is extensible. Extensible usually means complicated. These getting started instructions are
+              meant to show the the simplest possible usage of REPLash. If you want to do something more complicated
+              you should probably look through the source code.
+          </p>
+
+          <p>
+              Include the REPLash core module in your project.
+              <pre>
+<code>&lt;dependency&gt;</code>
+    <code>&lt;groupId&gt;com.replash&lt;/groupId&gt;</code>
+    <code>&lt;artifactId&gt;replash-core&lt;/artifactId&gt;</code>
+    <code>&lt;version&gt;0.7&lt;/version&gt;</code>
+<code>&lt;/dependency&gt;</code>
+              </pre>
+          </p>
+
+          <p>
+              The easiest way to get started is to use the ReplashBuilder class to build a Replash instance. Calling
+              run() on the Replash instance enters the REPL (read-eval-print loop) until the user ends the session by
+              using CTRL+C or typing 'quit' or 'exit'.
+          </p>
+
+          <p>
+              Let's take another look at the code segment above with some slight tweaks for readability:
+        <pre><code>public class WebSamplesMain {
+    public static void main(String[] args) {
+        ReplashBuilder builder = new ReplashBuilder()
+            .withCommands(WebSamplesMain.class); // 1
+
+        Replash replash = builder.build(); // 2
+
+        replash.run(); // 3
+    }
+
+    // 4
+    @Command(name = "date")
+    public void printDate() {
+        DateFormat dateFormat = new SimpleDateFormat();
+        String dateStr = dateFormat.format(new Date());
+        Console.println(dateStr); // 5
+    }
+}</code></pre>
+            <ul>
+                <li>
+                    1) Create a new instance of ReplashBuilder. The builder is used to configure a Replash instance.
+                </li>
+                <li>
+                    2) Create an instance of Replash using the builder.
+                </li>
+                <li>
+                    3) Enter the REPL (read-eval-print loop).
+                </li>
+                <li>
+                    4) Define an additional command called 'date' using the method <code>printDate()</code>. This
+                    custom command is added to REPLash using the ReplashBuilder in step #1.
+                </li>
+                <li>
+                    5) Use <code>Console.println()</code> to print to the console. Don't worry if you don't like
+                    Singleton: a non-singleton (but slightly less developer friendly) interface to the console is
+                    available.
+                </li>
+            </ul>
+          </p>
       </section>
     </div>
   </body>
